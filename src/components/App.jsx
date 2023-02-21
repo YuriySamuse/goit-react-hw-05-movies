@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Home from 'pages/Home';
 import About from 'pages/About';
 import Products from 'pages/Products';
-import ProductDetails from 'pages/ProductDetails';
+// import ProductDetails from 'pages/ProductDetails';
 
 const StyledLink = styled(NavLink)`
   color: black;
