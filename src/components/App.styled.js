@@ -38,3 +38,11 @@ export const Link = styled(NavLink)`
     background-color: orangered;
   }
 `;
+
+// export const StyledLink = styled(NavLink)`
+//   color: black;
+
+//   &.active {
+//     color: orange;
+//   }
+// `;

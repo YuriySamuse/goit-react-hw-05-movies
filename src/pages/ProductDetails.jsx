@@ -4,6 +4,9 @@ import { getProductById } from 'FakeAPI';
 const ProductDetails = () => {
   const { id } = useParams();
   const product = getProductById(id);
+
+  console.log('ProductDetails', product);
+
   return (
     <main>
       <img src="https://via.placeholder.com/960x240" alt="" />
