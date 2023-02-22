@@ -1,12 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
+
 import SharedLayout from './SharedLayout/SharedLayout';
 import Home from 'pages/Home';
 import About from 'pages/About';
-import Products from 'pages/Products';
-import ProductDetails from 'pages/ProductDetails';
 import Mission from './Mission';
 import Team from './Team';
 import Reviews from './Reviews';
+import Products from 'pages/Products';
+import ProductDetails from 'pages/ProductDetails';
 
 export const App = () => {
   return (
