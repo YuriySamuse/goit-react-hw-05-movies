@@ -1,24 +1,45 @@
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { getReview } from 'API';
+
 const Reviews = () => {
+  const [reviews, setReviews] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const renderReviews = async () => {
+      setLoading(true);
+      try {
+        setReviews(await getReview(id));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    renderReviews();
+  }, [id]);
+
+  if (reviews === 0) {
+    <p>No reviews on this Movie</p>;
+  }
+
   return (
-    <section>
-      <div>
-        <h2>First review - 4.6/5</h2>
-        <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem harum
-          architecto sapiente corporis, voluptatem quas voluptatibus fugiat
-          nulla commodi quidem, dolorem distinctio inventore blanditiis illo
-          tenetur aut enim ex laborum!
-        </p>
-      </div>
-      <div>
-        <h2>Second review - 4.8/5</h2>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti
-          nihil ea, eaque fugit amet possimus officiis asperiores aperiam facere
-          et?
-        </p>
-      </div>
-    </section>
+    <>
+      {loading && <p>Loading...</p>}
+      {!reviews && <h2>No reviews on this Movie </h2>}
+      {reviews && (
+        <ul>
+          {reviews.map(({ id, author, content }) => (
+            <li key={id}>
+              <h3>Author: {author}</h3>
+              <p>{content}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 };
 
