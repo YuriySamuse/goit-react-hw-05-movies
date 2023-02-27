@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getCast } from 'API';
-import { List, Image } from 'components/Cast/Cast.styled';
+import { CastList, Image } from 'components/Cast/Cast.styled';
+import { Loader } from 'components/Loader/Loader';
 
 const Cast = () => {
   const [casts, setCasts] = useState([]);
@@ -14,7 +15,7 @@ const Cast = () => {
       try {
         setCasts(await getCast(id));
       } catch (error) {
-        console.error(error);
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -22,14 +23,15 @@ const Cast = () => {
     fetchCast();
   }, [id]);
 
+  // console.log('casts', casts);
+
   const defaultImage = 'https://via.placeholder.com/200x300';
 
   return (
     <>
-      {loading && <p>Loading...</p>}
-      {!casts && <p>No actors for this Movie</p>}
-      {casts && (
-        <List>
+      {loading && <Loader />}
+      {casts && casts.length > 0 ? (
+        <CastList>
           {casts.map(({ id, character, name, profile_path }) => (
             <li key={id}>
               <Image
@@ -46,7 +48,11 @@ const Cast = () => {
               </div>
             </li>
           ))}
-        </List>
+        </CastList>
+      ) : (
+        <div>
+          <h2>No actors for this Movie</h2>
+        </div>
       )}
     </>
   );

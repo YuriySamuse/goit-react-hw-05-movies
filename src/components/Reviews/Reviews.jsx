@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getReview } from 'API';
 import { ReviewsList, ReviewsCard } from './Reviews.styled';
+import { Loader } from 'components/Loader/Loader';
 
 const Reviews = () => {
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
@@ -22,13 +23,12 @@ const Reviews = () => {
     fetchReviews();
   }, [id]);
 
-  console.log('reviews', reviews);
-  // const { results } = reviews;
+  // console.log('reviews', reviews);
+
   return (
     <section>
-      {loading && <p>Loading...</p>}
-
-      {reviews ? (
+      {loading && <Loader />}
+      {reviews && reviews.length > 0 ? (
         <ReviewsList>
           {reviews.map(({ id, author, content }) => (
             <ReviewsCard key={id}>
@@ -38,7 +38,9 @@ const Reviews = () => {
           ))}
         </ReviewsList>
       ) : (
-        <h2>No reviews on this Movie </h2>
+        <div>
+          <h2>No reviews on this Movie </h2>
+        </div>
       )}
     </section>
   );
