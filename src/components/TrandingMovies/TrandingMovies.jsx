@@ -7,7 +7,7 @@ const TrandingMovies = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const renderMovies = async () => {
+    const fetchMovies = async () => {
       setLoading(true);
       try {
         setMovies(await getTrending());
@@ -17,7 +17,7 @@ const TrandingMovies = () => {
         setLoading(false);
       }
     };
-    renderMovies();
+    fetchMovies();
   }, []);
 
   const location = useLocation();

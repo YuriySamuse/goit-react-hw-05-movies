@@ -7,7 +7,7 @@ const SearchBox = ({ value, onChange }) => {
       <Input
         type="text"
         value={value}
-        onChange={e => onChange(e.target.value)}
+        onChange={e => onChange(e.target.value.toLowerCase())}
       />
     </Wrapper>
   );

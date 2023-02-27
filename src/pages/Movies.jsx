@@ -1,30 +1,24 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { getSearchQuery } from 'API';
+import SearchBox from 'components/SearchBox/SearchBox';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
-  const [query, setQuery] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
 
-  const movieSearch = searchParams.get('query');
+  const movieSearch = searchParams.get('query') ?? '';
 
-  const onChange = e => {
-    setQuery(e.currentTarget.value.toLowerCase());
-  };
-
-  const submit = e => {
-    e.preventDefault();
-
-    setSearchParams({ query: query });
-    setQuery('');
+  const updateQueryString = query => {
+    const nextParams = query !== '' ? { query } : {};
+    setSearchParams(nextParams);
   };
 
   useEffect(() => {
     if (!movieSearch) return;
     setLoading(true);
-    async function renderMovies() {
+    async function fetchMovies() {
       try {
         setMovies(await getSearchQuery(movieSearch));
       } catch (error) {
@@ -33,17 +27,14 @@ const Movies = () => {
         setLoading(false);
       }
     }
-    renderMovies();
+    fetchMovies();
   }, [movieSearch]);
 
   const location = useLocation();
 
   return (
     <div>
-      <form onSubmit={submit}>
-        <input type="text" value={query} onChange={onChange} />
-        <button type="submit">Search</button>
-      </form>
+      <SearchBox value={movieSearch} onChange={updateQueryString} />
       {loading && <p>Loading...</p>}
       {movies.length === 0 && <h2>No movies for your query</h2>}
       {movies && (

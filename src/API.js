@@ -35,5 +35,6 @@ export async function getReview(id) {
   const { data } = await axios.get(
     `${URL}/movie/${id}/reviews?api_key=${KEY}&language=en-US&page=1`
   );
-  return data.result;
+
+  return data.results;
 }
